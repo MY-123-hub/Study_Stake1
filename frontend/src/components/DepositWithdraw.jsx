@@ -144,7 +144,7 @@ export default function DepositWithdraw() {
         {!hasAllowance ? (
           <button
             onClick={handleApprove}
-            disabled={isApproving || isApprovingConfirming || !hasBalance || !Number(amount)}
+            disabled={isApproving || isApprovingConfirming || !Number(amount)}
             className="btn btn-primary btn-full"
           >
             {isApproving ? '确认中...' : isApprovingConfirming ? '授权确认中...' : isApprovedSuccess ? '授权成功' : '第 1 步: 授权 USDC'}
