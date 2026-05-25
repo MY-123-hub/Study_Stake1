@@ -5,6 +5,8 @@ import { injected } from 'wagmi/connectors'
 export const config = createConfig({
   chains: [bsc],
   connectors: [
+    injected({ target: 'okxWallet' }),
+    injected({ target: 'metaMask' }),
     injected(),
   ],
   transports: {
