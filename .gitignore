@@ -1,0 +1,14 @@
+# 私钥和敏感配置
+.env
+
+# Foundry
+cache/
+out/
+
+# Node
+frontend/node_modules/
+frontend/dist/
+
+# IDE
+.vscode/
+.idea/
