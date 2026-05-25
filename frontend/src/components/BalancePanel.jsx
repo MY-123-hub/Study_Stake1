@@ -29,7 +29,7 @@ export default function BalancePanel() {
 
   return (
     <div className="card">
-      <h3>💰 余额</h3>
+      <h3>余额</h3>
       <div className="balance-grid">
         <div className="balance-item">
           <span className="label">总存款</span>

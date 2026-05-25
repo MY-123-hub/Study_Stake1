@@ -1,65 +1,56 @@
 /* ========================================
-   StudyStake DApp — Linear Design System
-   Inspired by linear.app dark-mode aesthetic
+   StudyStake DApp — Stripe Design System
+   Inspired by stripe.com financial-tool aesthetic
    ======================================== */
 
-/* ===== Font Setup: Inter Variable + OpenType ===== */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;510;590&display=swap');
+/* ===== Font: Inter (open-source Sohne analogue) ===== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 
 :root {
   /* --- Surfaces --- */
-  --bg-marketing: #08090a;
-  --bg-panel: #0f1011;
-  --bg-surface: #191a1b;
-  --bg-surface-hover: #28282c;
-  --bg-elevated: rgba(255, 255, 255, 0.03);
-  --bg-elevated-hover: rgba(255, 255, 255, 0.06);
+  --canvas: #ffffff;
+  --canvas-soft: #f6f9fc;
+  --canvas-cream: #f5e9d4;
 
   /* --- Text --- */
-  --text-primary: #f7f8f8;
-  --text-secondary: #d0d6e0;
-  --text-tertiary: #8a8f98;
-  --text-muted: #62666d;
+  --ink: #0d253d;
+  --ink-secondary: #273951;
+  --ink-mute: #64748d;
 
-  /* --- Brand Accent --- */
-  --brand-primary: #5e6ad2;
-  --accent-violet: #7170ff;
-  --accent-hover: #828fff;
-  --security-lavender: #7a7fad;
+  /* --- Brand --- */
+  --primary: #533afd;
+  --primary-deep: #4434d4;
+  --primary-press: #2e2b8c;
+  --primary-soft: #665efd;
+  --primary-subdued: #b9b9f9;
+  --brand-dark: #1c1e54;
 
-  /* --- Status Colors --- */
-  --status-success: #27a644;
-  --status-emerald: #10b981;
-  --status-danger: #d44c47;
-  --status-warning: #dfab01;
+  /* --- Gradient Accents (decorative only, never buttons) --- */
+  --ruby: #ea2261;
+  --magenta: #f96bee;
+  --lemon: #9b6829;
 
   /* --- Borders --- */
-  --border-subtle: rgba(255, 255, 255, 0.05);
-  --border-standard: rgba(255, 255, 255, 0.08);
-  --border-solid-1: #23252a;
-  --border-solid-2: #34343a;
-  --border-line-tint: #141516;
+  --hairline: #e3e8ee;
+  --hairline-input: #a8c3de;
 
-  /* --- Radius Scale --- */
-  --radius-xs: 2px;
-  --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-card: 8px;
-  --radius-panel: 12px;
+  /* --- Status --- */
+  --success: #10b981;
+  --danger: #dc2626;
+  --warning: #f59e0b;
+
+  /* --- Radius --- */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
   --radius-pill: 9999px;
-  --radius-circle: 50%;
 
-  /* --- Shadows (Dark Surface) --- */
-  --shadow-subtle: rgba(0, 0, 0, 0.03) 0px 1.2px 0px;
-  --shadow-ring: rgba(0, 0, 0, 0.2) 0px 0px 0px 1px;
-  --shadow-surface: rgba(0, 0, 0, 0.4) 0px 2px 4px;
-  --shadow-elevated: rgba(0, 0, 0, 0) 0px 8px 2px,
-    rgba(0, 0, 0, 0.01) 0px 5px 2px,
-    rgba(0, 0, 0, 0.04) 0px 3px 2px,
-    rgba(0, 0, 0, 0.07) 0px 1px 1px,
-    rgba(0, 0, 0, 0.08) 0px 0px 1px;
-  --shadow-inset: rgba(0, 0, 0, 0.2) 0px 0px 12px 0px inset;
-  --shadow-focus: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  /* --- Shadows --- */
+  --shadow-sm: 0 1px 3px rgba(0, 55, 112, 0.08);
+  --shadow-md: 0 8px 24px rgba(0, 55, 112, 0.08), 0 2px 6px rgba(0, 55, 112, 0.04);
+  --shadow-focus: 0 0 0 3px rgba(83, 58, 253, 0.15);
 }
 
 * {
@@ -69,41 +60,38 @@
 }
 
 body {
-  font-family: 'Inter Variable', 'SF Pro Display', -apple-system, system-ui, 'Segoe UI', Roboto, sans-serif;
-  font-feature-settings: 'cv01', 'ss03';
-  font-weight: 400;
-  background-color: var(--bg-marketing);
-  color: var(--text-primary);
-  line-height: 1.50;
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-feature-settings: 'ss01';
+  font-weight: 300;
+  background-color: var(--canvas);
+  color: var(--ink);
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  letter-spacing: normal;
 }
 
 /* ===== App Layout ===== */
 .app {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 20px 24px 60px;
+  padding: 0 24px 64px;
 }
 
-/* ===== Header — Sticky Dark Bar ===== */
+/* ===== Header ===== */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 22px;
-  background: var(--bg-panel);
-  border-bottom: 1px solid var(--border-subtle);
-  border-radius: var(--radius-panel);
-  margin-bottom: 32px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--hairline);
+  margin-bottom: 48px;
 }
 
 .logo {
-  font-size: 16px;
-  font-weight: 510;
+  font-size: 18px;
+  font-weight: 500;
   letter-spacing: -0.02em;
-  color: var(--text-primary);
+  color: var(--ink);
   display: flex;
   align-items: center;
   gap: 10px;
@@ -111,9 +99,9 @@ body {
 .logo::before {
   content: '';
   display: inline-block;
-  width: 18px;
-  height: 18px;
-  background: linear-gradient(135deg, var(--brand-primary), var(--accent-violet));
+  width: 20px;
+  height: 20px;
+  background: var(--primary);
   border-radius: 4px;
 }
 
@@ -126,52 +114,77 @@ body {
 .address {
   font-family: 'Berkeley Mono', ui-monospace, 'SF Mono', Menlo, monospace;
   font-size: 13px;
-  font-weight: 510;
-  color: var(--text-tertiary);
-  background: var(--bg-elevated);
-  padding: 5px 11px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-subtle);
-  letter-spacing: 0.01em;
+  font-weight: 400;
+  color: var(--ink-mute);
+  background: var(--canvas-soft);
+  padding: 5px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--hairline);
 }
 
-/* ===== Welcome (未连接钱包) ===== */
+/* ===== Welcome Hero (unconnected) ===== */
 .welcome {
+  position: relative;
+  overflow: hidden;
   text-align: center;
-  padding: 100px 20px;
+  padding: 120px 20px 100px;
+  margin: -48px -24px 0;
+  background: var(--canvas);
+}
+
+/* Gradient mesh backdrop */
+.welcome::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  left: -20%;
+  width: 140%;
+  height: 180%;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 35%, rgba(245, 233, 212, 0.65) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 45% at 50% 25%, rgba(233, 186, 128, 0.45) 0%, transparent 50%),
+    radial-gradient(ellipse 45% 50% at 75% 40%, rgba(185, 185, 249, 0.55) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 45% at 88% 30%, rgba(234, 34, 97, 0.28) 0%, transparent 50%),
+    radial-gradient(ellipse 55% 40% at 35% 50%, rgba(249, 107, 238, 0.22) 0%, transparent 50%);
+  filter: blur(70px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.welcome > * {
+  position: relative;
+  z-index: 1;
 }
 
 .welcome h1 {
   font-size: 48px;
-  font-weight: 510;
-  line-height: 1.00;
-  letter-spacing: -1.056px;
-  color: var(--text-primary);
-  margin-bottom: 16px;
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -0.96px;
+  color: var(--ink);
+  margin-bottom: 20px;
 }
 
 .welcome > p:first-of-type {
-  font-size: 17px;
-  font-weight: 400;
-  color: var(--text-tertiary);
-  line-height: 1.60;
-  letter-spacing: -0.165px;
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--ink-mute);
+  line-height: 1.6;
   margin-bottom: 8px;
 }
 
 .sub-hint {
-  font-size: 14px !important;
-  font-weight: 510 !important;
-  color: var(--accent-violet) !important;
-  margin-top: 24px !important;
-  letter-spacing: -0.13px !important;
+  font-size: 15px !important;
+  font-weight: 400 !important;
+  color: var(--primary) !important;
+  margin-top: 28px !important;
 }
 
 /* ===== Main Grid ===== */
 .main-grid {
   display: grid;
   grid-template-columns: 380px 1fr;
-  gap: 20px;
+  gap: 24px;
   align-items: start;
 }
 
@@ -179,46 +192,41 @@ body {
   .main-grid { grid-template-columns: 1fr; }
 }
 
-/* ===== Card — Linear Surface Style ===== */
+/* ===== Card ===== */
 .card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border-standard);
-  border-radius: var(--radius-card);
-  padding: 22px;
-  box-shadow: var(--shadow-ring);
-  transition: background 0.15s ease;
-  margin-bottom: 16px;
-}
-.card:hover {
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--canvas);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 20px;
 }
 
 .card h3 {
-  font-size: 14px;
-  font-weight: 590;
-  letter-spacing: -0.182px;
-  color: var(--text-secondary);
-  margin-bottom: 18px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--ink-mute);
+  margin-bottom: 20px;
   text-transform: uppercase;
-  font-size: 12px;
 }
 
-/* ===== Buttons — Linear Ghost/Brand System ===== */
+/* ===== Buttons ===== */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 7px 14px;
+  padding: 8px 16px;
   border: none;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-pill);
   font-family: inherit;
-  font-size: 13px;
-  font-weight: 510;
+  font-size: 14px;
+  font-weight: 400;
   cursor: pointer;
-  transition: all 0.12s ease;
+  transition: all 0.15s ease;
   white-space: nowrap;
-  letter-spacing: -0.13px;
+  line-height: 1;
 }
 
 .btn:focus-visible {
@@ -227,61 +235,85 @@ body {
 }
 
 .btn:disabled {
-  opacity: 0.4;
+  opacity: 0.45;
   cursor: not-allowed;
 }
 
-/* Primary CTA — Brand Indigo */
+/* Primary — filled indigo pill */
 .btn-primary {
-  background: var(--brand-primary);
-  color: var(--text-primary);
-  border: none;
+  background: var(--primary);
+  color: #ffffff;
 }
 .btn-primary:hover:not(:disabled) {
-  background: var(--accent-violet);
+  background: var(--primary-deep);
 }
 
-/* Ghost Button (default action) */
+/* Secondary — outline pill */
 .btn-outline {
-  background: rgba(255, 255, 255, 0.02);
-  color: var(--text-secondary);
-  border: 1px solid var(--border-solid-1);
+  background: var(--canvas);
+  color: var(--primary);
+  border: 1px solid var(--primary);
 }
 .btn-outline:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: var(--border-solid-2);
-  color: var(--text-primary);
+  background: rgba(83, 58, 253, 0.04);
 }
 
 /* Status buttons */
-.btn-success { background: var(--status-emerald); color: #fff; }
-.btn-danger { background: var(--status-danger); color: #fff; }
-.btn-nfc { background: var(--security-lavender); color: #fff; }
-.btn-scanning { background: #9b8de3; color: #fff; animation: pulse-linear 1.5s infinite; }
-
-@keyframes pulse-linear {
-  50% { opacity: 0.65; }
+.btn-success {
+  background: var(--success);
+  color: #ffffff;
+}
+.btn-success:hover:not(:disabled) {
+  background: #059669;
 }
 
-.btn-small { padding: 4px 10px; font-size: 12px; }
-.btn-tiny { padding: 3px 7px; font-size: 11px; }
+.btn-danger {
+  background: var(--danger);
+  color: #ffffff;
+}
+.btn-danger:hover:not(:disabled) {
+  background: #b91c1c;
+}
+
+.btn-nfc {
+  background: var(--primary-subdued);
+  color: var(--primary-deep);
+}
+.btn-nfc:hover:not(:disabled) {
+  background: #a5a5f0;
+}
+
+.btn-scanning {
+  background: var(--primary-subdued);
+  color: var(--primary-deep);
+  animation: pulse-stripe 1.5s infinite;
+}
+
+@keyframes pulse-stripe {
+  50% { opacity: 0.6; }
+}
+
+.btn-small { padding: 5px 12px; font-size: 13px; }
+.btn-tiny { padding: 4px 10px; font-size: 12px; }
 .btn-full { width: 100%; }
 
-/* Mode toggle buttons */
+/* Mode toggle */
 .btn-mode {
   flex: 1;
-  padding: 9px 14px;
-  border: 1px solid var(--border-solid-1);
-  border-radius: var(--radius-md);
-  background: transparent;
-  color: var(--text-tertiary);
-  font-weight: 510;
-  transition: all 0.12s ease;
+  padding: 8px 14px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-pill);
+  background: var(--canvas);
+  color: var(--ink-mute);
+  font-weight: 400;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.15s ease;
 }
 .btn-mode.active {
-  border-color: var(--brand-primary);
-  background: rgba(94, 106, 210, 0.10);
-  color: var(--accent-violet);
+  border-color: var(--primary);
+  background: rgba(83, 58, 253, 0.06);
+  color: var(--primary);
 }
 
 /* ===== Balance Grid ===== */
@@ -293,17 +325,17 @@ body {
 
 .balance-item {
   text-align: center;
-  padding: 14px 8px;
-  background: var(--bg-elevated);
+  padding: 16px 8px;
+  background: var(--canvas-soft);
   border-radius: var(--radius-sm);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--hairline);
 }
 
 .balance-item .label {
   display: block;
   font-size: 11px;
-  font-weight: 510;
-  color: var(--text-muted);
+  font-weight: 400;
+  color: var(--ink-mute);
   text-transform: uppercase;
   letter-spacing: 0.04em;
   margin-bottom: 6px;
@@ -312,21 +344,22 @@ body {
 .balance-item .value {
   display: block;
   font-size: 20px;
-  font-weight: 510;
-  color: var(--text-primary);
+  font-weight: 500;
+  color: var(--ink);
+  font-feature-settings: 'ss01', 'tnum';
   letter-spacing: -0.02em;
 }
-.balance-item .value.highlight { color: var(--status-emerald); }
-.balance-item .value.locked { color: var(--status-danger); }
+.balance-item .value.highlight { color: var(--success); }
+.balance-item .value.locked { color: var(--danger); }
 
-/* ===== Form Elements — Linear Input Style ===== */
+/* ===== Forms ===== */
 .form-group { margin-bottom: 18px; }
 
 .form-group label {
   display: block;
   font-size: 12px;
-  font-weight: 510;
-  color: var(--text-muted);
+  font-weight: 400;
+  color: var(--ink-mute);
   margin-bottom: 7px;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -337,34 +370,31 @@ input[type="text"],
 input[type="datetime-local"],
 select {
   width: 100%;
-  padding: 9px 12px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--border-standard);
-  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  background: var(--canvas);
+  border: 1px solid var(--hairline-input);
+  border-radius: var(--radius-sm);
   font-family: inherit;
-  font-size: 14px;
-  font-weight: 400;
-  color: var(--text-secondary);
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--ink);
   outline: none;
-  transition: all 0.15s ease;
-  letter-spacing: normal;
+  transition: border-color 0.15s ease;
 }
 
-input::placeholder,
-select:invalid {
-  color: var(--text-muted);
+input::placeholder {
+  color: var(--ink-mute);
 }
 
 input:focus,
 select:focus {
-  border-color: var(--accent-violet);
-  background: rgba(255, 255, 255, 0.04);
-  box-shadow: 0 0 0 2px rgba(113, 112, 255, 0.08);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(83, 58, 253, 0.1);
 }
 
 select {
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238a8f98'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2364748d'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 12px center;
   padding-right: 30px;
@@ -375,69 +405,78 @@ select {
 
 .hint {
   font-size: 12px;
-  font-weight: 400;
-  color: var(--text-muted);
+  font-weight: 300;
+  color: var(--ink-mute);
   margin-top: 6px;
-  letter-spacing: normal;
 }
-.hint.error { color: var(--status-danger); }
-.hint.warning { color: var(--status-warning); }
+.hint.error { color: var(--danger); }
+.hint.warning { color: var(--warning); }
 
-/* Balance info row */
+/* Balance info */
 .balance-info {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 14px;
-  background: var(--bg-elevated);
+  background: var(--canvas-soft);
   border-radius: var(--radius-sm);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--hairline);
   margin-bottom: 18px;
 }
-.balance-info > span:first-child { font-size: 12px; color: var(--text-muted); font-weight: 510; text-transform: uppercase; letter-spacing: 0.04em; }
-.balance-value { font-size: 16px; font-weight: 510; color: var(--status-emerald); letter-spacing: -0.02em; }
+.balance-info > span:first-child {
+  font-size: 12px;
+  color: var(--ink-mute);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.balance-value {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--success);
+  font-feature-settings: 'ss01', 'tnum';
+}
 
-/* Button stack (vertical full-width) */
+/* Button stack */
 .btn-stack { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
 
 .divider {
   border: none;
   height: 1px;
-  background: var(--border-subtle);
+  background: var(--hairline);
   margin: 6px 0;
 }
 
 .error-msg {
   margin-top: 10px;
   font-size: 13px;
-  font-weight: 510;
-  color: var(--status-danger);
+  font-weight: 400;
+  color: var(--danger);
   padding: 8px 12px;
-  background: rgba(212, 76, 71, 0.08);
+  background: rgba(220, 38, 38, 0.06);
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(212, 76, 71, 0.15);
+  border: 1px solid rgba(220, 38, 38, 0.12);
 }
 
 .tx-hint {
   margin-top: 8px;
   font-size: 12px;
-  color: var(--text-muted);
-  font-style: italic;
+  color: var(--ink-mute);
   font-family: 'Berkeley Mono', monospace;
 }
 
-/* Mode Toggle Container */
-.mode-toggle { display: flex; gap: 6px; }
+/* Mode toggle container */
+.mode-toggle { display: flex; gap: 8px; }
 
-/* NFC Field — Lavender Tint */
+/* NFC Field */
 .nfc-field {
-  background: rgba(122, 127, 173, 0.06);
+  background: rgba(83, 58, 253, 0.03);
   padding: 14px;
-  border-radius: var(--radius-md);
-  border: 1px dashed var(--security-lavender);
+  border-radius: var(--radius-sm);
+  border: 1px dashed var(--primary-subdued);
 }
 
-/* Button Group */
+/* Button group */
 .btn-group {
   display: flex;
   gap: 8px;
@@ -448,12 +487,12 @@ select {
 /* ===== Task List ===== */
 .tab-bar {
   display: flex;
-  gap: 3px;
+  gap: 4px;
   margin-bottom: 16px;
-  background: var(--bg-elevated);
-  border-radius: var(--radius-md);
-  padding: 3px;
-  border: 1px solid var(--border-subtle);
+  background: var(--canvas-soft);
+  border-radius: var(--radius-pill);
+  padding: 4px;
+  border: 1px solid var(--hairline);
 }
 
 .tab {
@@ -461,42 +500,42 @@ select {
   padding: 6px 14px;
   border: none;
   background: transparent;
-  border-radius: 4px;
+  border-radius: var(--radius-pill);
   font-family: inherit;
   font-size: 13px;
-  font-weight: 510;
-  color: var(--text-tertiary);
+  font-weight: 400;
+  color: var(--ink-mute);
   cursor: pointer;
-  transition: all 0.12s ease;
+  transition: all 0.15s ease;
 }
 .tab.active {
-  background: var(--bg-surface);
-  color: var(--text-primary);
-  box-shadow: var(--shadow-subtle);
+  background: var(--canvas);
+  color: var(--ink);
+  box-shadow: var(--shadow-sm);
 }
-.tab:hover:not(.active) { color: var(--text-secondary); }
+.tab:hover:not(.active) { color: var(--ink-secondary); }
 
-.task-list { display: flex; flex-direction: column; gap: 8px; }
+.task-list { display: flex; flex-direction: column; gap: 10px; }
 
 .empty-hint {
   text-align: center;
-  color: var(--text-muted);
+  color: var(--ink-mute);
   font-size: 14px;
-  padding: 36px 0;
-  font-weight: 400;
+  padding: 40px 0;
+  font-weight: 300;
 }
 
-/* ===== Task Item — Linear Issue Card Style ===== */
+/* ===== Task Item ===== */
 .task-item {
-  border: 1px solid var(--border-standard);
-  border-radius: var(--radius-card);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
   padding: 16px 18px;
-  background: rgba(255, 255, 255, 0.02);
-  transition: all 0.12s ease;
+  background: var(--canvas);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.15s ease;
 }
 .task-item:hover {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: var(--border-solid-2);
+  box-shadow: var(--shadow-md);
 }
 
 .task-header {
@@ -507,50 +546,47 @@ select {
 }
 
 .task-id {
-  font-weight: 590;
+  font-weight: 500;
   font-size: 14px;
-  letter-spacing: -0.182px;
-  color: var(--text-primary);
+  color: var(--ink);
 }
 
 .task-mode {
   font-size: 11px;
-  font-weight: 510;
-  background: var(--bg-elevated);
-  padding: 2px 8px;
+  font-weight: 400;
+  background: var(--canvas-soft);
+  padding: 2px 10px;
   border-radius: var(--radius-pill);
-  color: var(--text-tertiary);
-  border: 1px solid var(--border-subtle);
+  color: var(--ink-mute);
+  border: 1px solid var(--hairline);
 }
 
+/* Badges */
 .badge-active {
   font-size: 10px;
-  font-weight: 510;
-  background: rgba(38, 166, 68, 0.12);
-  color: var(--status-success);
-  padding: 2px 8px;
+  font-weight: 500;
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--success);
+  padding: 2px 10px;
   border-radius: var(--radius-pill);
-  letter-spacing: 0.02em;
 }
 
 .badge-completed {
   font-size: 10px;
-  font-weight: 510;
-  background: rgba(16, 185, 129, 0.10);
-  color: var(--status-emerald);
-  padding: 2px 8px;
+  font-weight: 500;
+  background: rgba(16, 185, 129, 0.08);
+  color: var(--success);
+  padding: 2px 10px;
   border-radius: var(--radius-pill);
-  letter-spacing: 0.02em;
 }
 
 .badge-slashed {
   font-size: 10px;
-  font-weight: 510;
-  background: rgba(212, 76, 71, 0.10);
-  color: var(--status-danger);
-  padding: 2px 8px;
+  font-weight: 500;
+  background: rgba(220, 38, 38, 0.08);
+  color: var(--danger);
+  padding: 2px 10px;
   border-radius: var(--radius-pill);
-  letter-spacing: 0.02em;
 }
 
 /* Task Details */
@@ -560,33 +596,33 @@ select {
   display: flex;
   justify-content: space-between;
   padding: 3px 0;
-  color: var(--text-tertiary);
-  font-weight: 400;
+  color: var(--ink-mute);
+  font-weight: 300;
 }
 .detail-row > span:last-child {
-  color: var(--text-secondary);
-  font-weight: 500;
+  color: var(--ink-secondary);
+  font-weight: 400;
 }
 
 .tag-code {
   font-family: 'Berkeley Mono', ui-monospace, 'SF Mono', Menlo, monospace;
   font-size: 12px;
-  background: var(--bg-elevated);
+  background: var(--canvas-soft);
   padding: 1px 7px;
   border-radius: var(--radius-xs);
-  color: var(--accent-violet);
-  border: 1px solid var(--border-subtle);
+  color: var(--primary);
+  border: 1px solid var(--hairline);
 }
 
-.time-state.pending span:last-child { color: var(--text-muted); }
-.time-state.ready span:last-child { color: var(--status-emerald); font-weight: 510; }
-.time-state.overdue span:last-child { color: var(--status-danger); font-weight: 510; }
+.time-state.pending span:last-child { color: var(--ink-mute); }
+.time-state.ready span:last-child { color: var(--success); font-weight: 500; }
+.time-state.overdue span:last-child { color: var(--danger); font-weight: 500; }
 
 /* Task Actions */
 .task-actions {
   margin-top: 10px;
   padding-top: 12px;
-  border-top: 1px solid var(--border-subtle);
+  border-top: 1px solid var(--hairline);
 }
 
 .action-row {
@@ -599,23 +635,22 @@ select {
 .nfc-tag-input {
   flex: 1;
   min-width: 120px;
-  padding: 4px 8px;
-  border: 1px solid var(--border-standard);
+  padding: 5px 10px;
+  border: 1px solid var(--hairline-input);
   border-radius: var(--radius-sm);
   font-size: 13px;
   font-family: 'Berkeley Mono', ui-monospace, monospace;
-  background: rgba(255, 255, 255, 0.02);
-  color: var(--text-secondary);
+  background: var(--canvas);
+  color: var(--ink);
   outline: none;
 }
 .nfc-tag-input:focus {
-  border-color: var(--accent-violet);
+  border-color: var(--primary);
 }
 
 .waiting {
   font-size: 12px;
-  color: var(--text-muted);
-  font-style: italic;
+  color: var(--ink-mute);
 }
 
 .status-completed { opacity: 0.55; }
@@ -624,40 +659,40 @@ select {
 /* ===== Footer ===== */
 .footer {
   text-align: center;
-  padding: 40px 0 12px;
+  padding: 48px 0 16px;
   font-size: 12px;
-  font-weight: 510;
-  color: var(--text-muted);
-  letter-spacing: 0.02em;
+  font-weight: 400;
+  color: var(--ink-mute);
 }
 .footer p + p {
   margin-top: 4px;
   font-family: 'Berkeley Mono', ui-monospace, monospace;
   font-size: 11px;
-  color: var(--text-muted);
-  opacity: 0.6;
+  color: var(--ink-mute);
+  opacity: 0.5;
 }
 
-/* ===== Scrollbar (Dark Theme) ===== */
+/* ===== Scrollbar ===== */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--hairline);
   border-radius: 3px;
 }
-::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.15); }
+::-webkit-scrollbar-thumb:hover { background: var(--hairline-input); }
 
 /* ===== Selection ===== */
 ::selection {
-  background: rgba(113, 112, 255, 0.25);
-  color: var(--text-primary);
+  background: rgba(83, 58, 253, 0.15);
+  color: var(--ink);
 }
 
-/* ===== Mobile Responsive ===== */
+/* ===== Mobile ===== */
 @media (max-width: 600px) {
-  .app { padding: 12px 14px 40px; }
-  .header { padding: 10px 14px; margin-bottom: 20px; }
-  .welcome h1 { font-size: 32px; letter-spacing: -0.704px; }
+  .app { padding: 0 14px 40px; }
+  .header { padding: 12px 0; margin-bottom: 28px; }
+  .welcome { margin: -28px -14px 0; padding: 80px 20px 60px; }
+  .welcome h1 { font-size: 32px; letter-spacing: -0.64px; }
   .balance-grid { grid-template-columns: 1fr 1fr; }
-  .card { padding: 16px; }
+  .card { padding: 18px; }
 }

@@ -8,7 +8,6 @@ export default function DepositWithdraw() {
   const { address, isConnected } = useAccount()
   const [amount, setAmount] = useState('')
 
-  // USDC 余额
   const { data: usdcBalance } = useReadContract({
     address: USDC_SEPOLIA,
     abi: [
@@ -25,7 +24,6 @@ export default function DepositWithdraw() {
     query: { enabled: !!address },
   })
 
-  // USDC 已授权额度
   const { data: allowance, refetch: refetchAllowance } = useReadContract({
     address: USDC_SEPOLIA,
     abi: [
@@ -42,25 +40,21 @@ export default function DepositWithdraw() {
     query: { enabled: !!address },
   })
 
-  // Step 1: Approve USDC
   const { writeContract: approve, isPending: isApproving, data: approveHash, error: approveError, reset: resetApprove } = useWriteContract()
   const { isLoading: isApprovingConfirming, isSuccess: isApprovedSuccess } = useWaitForTransactionReceipt({
     hash: approveHash, confirmations: 1, pollingInterval: 2000,
   })
 
-  // Step 2: Deposit
   const { writeContract: deposit, isPending: isDepositing, data: depositHash, error: depositError, reset: resetDeposit } = useWriteContract()
   const { isLoading: isDepositConfirming, isSuccess: isDepositSuccess } = useWaitForTransactionReceipt({
     hash: depositHash, confirmations: 1, pollingInterval: 2000,
   })
 
-  // Withdraw
   const { writeContract: withdraw, isPending: isWithdrawing, data: withdrawHash, error: withdrawError } = useWriteContract()
   const { isLoading: isWithdrawConfirming } = useWaitForTransactionReceipt({
     hash: withdrawHash, confirmations: 1, pollingInterval: 2000,
   })
 
-  // 授权成功后刷新 allowance
   if (isApprovedSuccess) {
     refetchAllowance?.()
     resetApprove()
@@ -119,20 +113,17 @@ export default function DepositWithdraw() {
     })
   }
 
-  // 余额显示
   const balText = usdcBalance !== undefined ? `${Number(formatUnits(usdcBalance, 6)).toFixed(2)} USDC` : '--'
 
   return (
     <div className="card">
-      <h3>🏦 存款 / 提现</h3>
+      <h3>存款 / 提现</h3>
 
-      {/* 余额信息 */}
       <div className="balance-info">
         <span>USDC 余额</span>
         <span className="balance-value">{balText}</span>
       </div>
 
-      {/* 输入金额 */}
       <div className="form-group">
         <label>金额 (USDC)</label>
         <input
@@ -145,50 +136,44 @@ export default function DepositWithdraw() {
         />
       </div>
 
-      {/* 状态提示 */}
       {!hasAllowance && Number(amount) > 0 && (
-        <p className="hint warning">⚠️ 需要先授权才能存入</p>
+        <p className="hint warning">需要先授权才能存入</p>
       )}
 
-      {/* 操作按钮区 */}
       <div className="btn-stack">
-        {/* 步骤 1: 授权 */}
         {!hasAllowance ? (
           <button
             onClick={handleApprove}
             disabled={isApproving || isApprovingConfirming || !hasBalance || !Number(amount)}
             className="btn btn-primary btn-full"
           >
-            {isApproving ? '确认中...' : isApprovingConfirming ? '⏳ 授权确认中...' : isApprovedSuccess ? '✅ 授权成功！' : '第1步: 授权 USDC'}
+            {isApproving ? '确认中...' : isApprovingConfirming ? '授权确认中...' : isApprovedSuccess ? '授权成功' : '第 1 步: 授权 USDC'}
           </button>
         ) : (
-          <button disabled className="btn btn-success btn-full" style={{ opacity: 0.5 }}>
-            ✅ 已授权 ({Number(formatUnits(allowance, 6)).toFixed(2)} USDC)
+          <button disabled className="btn btn-full" style={{ background: 'var(--canvas-soft)', color: 'var(--ink-mute)' }}>
+            已授权 ({Number(formatUnits(allowance, 6)).toFixed(2)} USDC)
           </button>
         )}
 
-        {/* 步骤 2: 存入 */}
         <button
           onClick={handleDeposit}
           disabled={!canDeposit || isDepositing || isDepositConfirming}
           className="btn btn-primary btn-full"
         >
-          {isDepositing ? '确认中...' : isDepositConfirming ? '⏳ 存入确认中...' : isDepositSuccess ? '✅ 存入成功！' : '第2步: 存入'}
+          {isDepositing ? '确认中...' : isDepositConfirming ? '存入确认中...' : isDepositSuccess ? '存入成功' : '第 2 步: 存入'}
         </button>
 
         <hr className="divider" />
 
-        {/* 提现 */}
         <button
           onClick={handleWithdraw}
           disabled={isWithdrawing || isWithdrawConfirming || !Number(amount)}
           className="btn btn-outline btn-full"
         >
-          {isWithdrawing || isWithdrawConfirming ? '⏳ 提现中...' : '📤 提现'}
+          {isWithdrawing || isWithdrawConfirming ? '提现中...' : '提现'}
         </button>
       </div>
 
-      {/* 错误提示 */}
       {(approveError && !isApproving) && (
         <p className="error-msg">授权失败: {approveError.shortMessage || approveError.message}</p>
       )}

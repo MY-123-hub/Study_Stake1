@@ -4,7 +4,6 @@ import { formatUnits } from 'viem'
 import { STUDY_STAKE_PROXY } from '../contracts.js'
 import abi from '../abi.json'
 
-// Task status mapping
 const STATUS_MAP = {
   0: 'Active',
   1: 'Completed',
@@ -12,15 +11,14 @@ const STATUS_MAP = {
 }
 
 const MODE_MAP = {
-  0: '🖱️ Click',
-  1: '📱 NFC',
+  0: 'Click',
+  1: 'NFC',
 }
 
 export default function TaskList({ refreshTrigger }) {
   const { address, isConnected } = useAccount()
   const [activeTab, setActiveTab] = useState('active')
 
-  // Task count
   const { data: taskCount } = useReadContract({
     address: STUDY_STAKE_PROXY,
     abi,
@@ -29,7 +27,6 @@ export default function TaskList({ refreshTrigger }) {
     query: { enabled: !!address },
   })
 
-  // We'll fetch tasks by iterating IDs
   const count = taskCount !== undefined ? Number(taskCount) : 0
   const tasks = []
   for (let i = 1; i <= count; i++) {
@@ -42,13 +39,12 @@ export default function TaskList({ refreshTrigger }) {
 
   return (
     <div className="card">
-      <h3>📝 我的任务 ({count})</h3>
+      <h3>我的任务 ({count})</h3>
 
       {count === 0 && (
-        <p className="empty-hint">还没有任务，先创建一个吧 👆</p>
+        <p className="empty-hint">还没有任务，先创建一个吧</p>
       )}
 
-      {/* Tab 切换 */}
       {count > 0 && (
         <div className="tab-bar">
           <button
@@ -73,16 +69,13 @@ export default function TaskList({ refreshTrigger }) {
       )}
 
       <div className="task-list">
-        {/* 实际渲染通过 TaskItem 内部控制显示/隐藏 */}
         {tasks}
       </div>
     </div>
   )
 }
 
-// 单个任务项组件
 function TaskItem({ taskId, user, refreshTrigger }) {
-  // Read task data (8 fields: id, user, targetTime, window, penalty, mode, allowedTag, status)
   const { data: task, refetch } = useReadContract({
     address: STUDY_STAKE_PROXY,
     abi,
@@ -91,7 +84,6 @@ function TaskItem({ taskId, user, refreshTrigger }) {
     query: { enabled: !!user },
   })
 
-  // Listen to refresh trigger
   const prevTrigger = useRef(refreshTrigger)
   useEffect(() => {
     if (prevTrigger.current !== refreshTrigger) refetch()
@@ -109,18 +101,17 @@ function TaskItem({ taskId, user, refreshTrigger }) {
   const targetTs = Number(targetTime)
   const winSec = Number(windowSec)
 
-  // Time state calculation
   let timeState = ''
   let timeColor = ''
-  if (statusNum === 0) { // Active
+  if (statusNum === 0) {
     if (now < targetTs - 60) {
-      timeState = `⏳ ${formatDuration(targetTs - now)}后开始`
+      timeState = `${formatDuration(targetTs - now)}后开始`
       timeColor = 'pending'
     } else if (now >= targetTs - 60 && now <= targetTs + winSec) {
-      timeState = `✅ 可签到（剩余${formatDuration(targetTs + winSec - now)}）`
+      timeState = `可签到（剩余 ${formatDuration(targetTs + winSec - now)}）`
       timeColor = 'ready'
     } else {
-      timeState = `⏰ 已超时，可清算`
+      timeState = '已超时，可清算'
       timeColor = 'overdue'
     }
   }
@@ -142,7 +133,7 @@ function TaskItem({ taskId, user, refreshTrigger }) {
         </div>
         <div className="detail-row">
           <span>窗口期</span>
-          <span>{winSec}秒 ({winSec / 60}分钟)</span>
+          <span>{winSec} 秒 ({winSec / 60} 分钟)</span>
         </div>
         <div className="detail-row">
           <span>惩罚金额</span>
@@ -162,7 +153,6 @@ function TaskItem({ taskId, user, refreshTrigger }) {
         )}
       </div>
 
-      {/* 操作按钮 */}
       {statusNum === 0 && (
         <TaskActions
           taskId={taskId}
@@ -178,18 +168,14 @@ function TaskItem({ taskId, user, refreshTrigger }) {
   )
 }
 
-// 操作按钮组件
 function TaskActions({ taskId, user, mode, status, canCheckIn, canSlash, onSuccess }) {
-  // Click checkIn
   const { writeContract: writeCheckIn, isPending: ciPending, data: ciHash } = useWriteContract()
   const { isLoading: ciConfirming } = useWaitForTransactionReceipt({ hash: ciHash, confirmations: 1, pollingInterval: 2000 })
 
-  // NFC checkIn
   const { writeContract: writeNfcCheckIn, isPending: nfcPending, data: nfcHash } = useWriteContract()
   const { isLoading: nfcConfirming } = useWaitForTransactionReceipt({ hash: nfcHash, confirmations: 1, pollingInterval: 2000 })
   const [nfcTagId, setNfcTagId] = useState('')
 
-  // Slash
   const { writeContract: writeSlash, isPending: slPending, data: slHash } = useWriteContract()
   const { isLoading: slConfirming } = useWaitForTransactionReceipt({ hash: slHash, confirmations: 1, pollingInterval: 2000 })
 
@@ -237,7 +223,7 @@ function TaskActions({ taskId, user, mode, status, canCheckIn, canSlash, onSucce
                 disabled={nfcPending || nfcConfirming}
                 className="btn btn-small btn-success"
               >
-                {nfcPending || nfcConfirming ? '签到中...' : '📱 NFC 签到'}
+                {nfcPending || nfcConfirming ? '签到中...' : 'NFC 签到'}
               </button>
             </>
           ) : (
@@ -246,7 +232,7 @@ function TaskActions({ taskId, user, mode, status, canCheckIn, canSlash, onSucce
               disabled={ciPending || ciConfirming}
               className="btn btn-small btn-success"
             >
-              {ciPending || ciConfirming ? '签到中...' : '✅ 点击签到'}
+              {ciPending || ciConfirming ? '签到中...' : '点击签到'}
             </button>
           )}
         </div>
@@ -264,7 +250,7 @@ function TaskActions({ taskId, user, mode, status, canCheckIn, canSlash, onSucce
           disabled={slPending || slConfirming}
           className="btn btn-small btn-danger"
         >
-          {slPending || slConfirming ? '清算中...' : '⚠️ 违约清算'}
+          {slPending || slConfirming ? '清算中...' : '违约清算'}
         </button>
       )}
 
@@ -275,7 +261,6 @@ function TaskActions({ taskId, user, mode, status, canCheckIn, canSlash, onSucce
   )
 }
 
-// 行内 NFC 扫描
 function NfcScanInline({ onScan }) {
   const handleScan = async () => {
     if ('NDEFReader' in window) {
@@ -298,18 +283,17 @@ function NfcScanInline({ onScan }) {
 
   return (
     <button type="button" onClick={handleScan} className="btn btn-tiny btn-nfc">
-      📡
+      NFC
     </button>
   )
 }
 
-// 工具函数
 function formatDuration(seconds) {
-  if (seconds < 60) return `${seconds}秒`
-  if (seconds < 3600) return `${Math.floor(seconds / 60)}分钟`
+  if (seconds < 60) return `${seconds} 秒`
+  if (seconds < 3600) return `${Math.floor(seconds / 60)} 分钟`
   const h = Math.floor(seconds / 3600)
   const m = Math.floor((seconds % 3600) / 60)
-  return `${h}小时${m > 0 ? m + '分' : ''}`
+  return `${h} 小时${m > 0 ? m + ' 分' : ''}`
 }
 
 function formatDate(timestamp) {

@@ -4,7 +4,6 @@ import { parseUnits } from 'viem'
 import { STUDY_STAKE_PROXY } from '../contracts.js'
 import abi from '../abi.json'
 
-// 模式枚举
 const MODES = {
   Click: 0,
   NFC: 1,
@@ -14,15 +13,15 @@ export default function CreateTask({ onTaskCreated }) {
   const { isConnected } = useAccount()
   const [mode, setMode] = useState('Click')
   const [targetTime, setTargetTime] = useState('')
-  const [window, setWindow] = useState('1800') // 默认30分钟
+  const [window, setWindow] = useState('1800')
   const [penalty, setPenalty] = useState('')
   const [tagId, setTagId] = useState('')
 
   const { writeContract, data: hash, isPending, error, reset } = useWriteContract()
   const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({
     hash,
-    confirmations: 1, // Sepolia 只需 1 个确认就够了
-    pollingInterval: 2000, // 每 2 秒查一次
+    confirmations: 1,
+    pollingInterval: 2000,
   })
 
   const handleSubmit = (e) => {
@@ -69,10 +68,9 @@ export default function CreateTask({ onTaskCreated }) {
 
   return (
     <div className="card">
-      <h3>📋 创建任务</h3>
+      <h3>创建任务</h3>
       <form onSubmit={handleSubmit} className="task-form">
 
-        {/* 模式选择 */}
         <div className="form-group">
           <label>签到方式</label>
           <div className="mode-toggle">
@@ -81,19 +79,18 @@ export default function CreateTask({ onTaskCreated }) {
               className={mode === 'Click' ? 'btn btn-mode active' : 'btn btn-mode'}
               onClick={() => setMode('Click')}
             >
-              🖱️ 点击签到
+              点击签到
             </button>
             <button
               type="button"
               className={mode === 'NFC' ? 'btn btn-mode active' : 'btn btn-mode'}
               onClick={() => setMode('NFC')}
             >
-              📱 NFC 签到
+              NFC 签到
             </button>
           </div>
         </div>
 
-        {/* 目标时间 */}
         <div className="form-group">
           <label>目标时间（必须是未来）</label>
           <input
@@ -104,7 +101,6 @@ export default function CreateTask({ onTaskCreated }) {
           />
         </div>
 
-        {/* 窗口期 */}
         <div className="form-group">
           <label>窗口期（秒）</label>
           <select value={window} onChange={(e) => setWindow(e.target.value)}>
@@ -115,7 +111,6 @@ export default function CreateTask({ onTaskCreated }) {
           </select>
         </div>
 
-        {/* 惩罚金额 */}
         <div className="form-group">
           <label>惩罚金额 (USDC)</label>
           <input
@@ -128,7 +123,6 @@ export default function CreateTask({ onTaskCreated }) {
           />
         </div>
 
-        {/* NFC Tag ID — 仅 NFC 模式显示 */}
         {mode === 'NFC' && (
           <div className="form-group nfc-field">
             <label>NFC 标签 ID</label>
@@ -142,17 +136,16 @@ export default function CreateTask({ onTaskCreated }) {
               />
               <NfcScanButton onScan={(id) => setTagId(id)} />
             </div>
-            <p className="hint">📱 点击右侧按钮用手机扫描 NFC 标签自动填入</p>
+            <p className="hint">点击右侧按钮用手机扫描 NFC 标签自动填入</p>
           </div>
         )}
 
-        {/* 提交 */}
         <button
           type="submit"
           disabled={isPending || isConfirming || !targetTime || !penalty}
           className="btn btn-primary btn-full"
         >
-          {isPending ? '确认中钱包...' : isConfirming ? '⏳ 等待区块确认...' : isConfirmed ? '✅ 创建成功！' : `✅ 创建${mode}任务`}
+          {isPending ? '确认中...' : isConfirming ? '等待区块确认...' : isConfirmed ? '创建成功' : `创建${mode === 'NFC' ? ' NFC ' : ' '}任务`}
         </button>
 
         {error && (
@@ -163,7 +156,6 @@ export default function CreateTask({ onTaskCreated }) {
   )
 }
 
-// Web NFC 扫描按钮组件
 function NfcScanButton({ onScan }) {
   const [scanning, setScanning] = useState(false)
   const [supported, setSupported] = useState(true)
@@ -178,7 +170,6 @@ function NfcScanButton({ onScan }) {
         await reader.scan()
         reader.onreading = (event) => {
           const { serialNumber } = event.message.records[0]
-          // 取最后4字节作为 bytes4 tagId
           const hex = serialNumber.replace(/[^0-9a-fA-F]/g, '')
           const tagId = '0x' + hex.slice(-8).toUpperCase().padStart(8, '0')
           onScan(tagId)
@@ -188,7 +179,6 @@ function NfcScanButton({ onScan }) {
           setErrorMsg('NFC 读取失败，请重试')
           setScanning(false)
         }
-        // 超时处理
         setTimeout(() => {
           setScanning(false)
           if (scanning) setErrorMsg('扫描超时，请再试一次')
@@ -214,7 +204,7 @@ function NfcScanButton({ onScan }) {
       disabled={scanning}
       className={`btn btn-small ${scanning ? 'btn-scanning' : 'btn-nfc'}`}
     >
-      {scanning ? '🔄 扫描中...' : '📡 扫描 NFC'}
+      {scanning ? '扫描中...' : '扫描 NFC'}
     </button>
   )
 }
