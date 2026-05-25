@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt } from 'wagmi'
 import { parseUnits, formatUnits } from 'viem'
-import { STUDY_STAKE_PROXY, USDC } from '../contracts.js'
+import { STUDY_STAKE_PROXY, USDC, USDC_DECIMALS } from '../contracts.js'
 import abi from '../abi.json'
 
 export default function DepositWithdraw() {
@@ -67,7 +67,7 @@ export default function DepositWithdraw() {
 
   if (!isConnected) return null
 
-  const amountWei = amount && Number(amount) > 0 ? parseUnits(amount, 6) : BigInt(0)
+  const amountWei = amount && Number(amount) > 0 ? parseUnits(amount, USDC_DECIMALS) : BigInt(0)
   const hasAllowance = allowance !== undefined && BigInt(allowance) >= amountWei
   const hasBalance = usdcBalance !== undefined && BigInt(usdcBalance) >= amountWei
   const canDeposit = hasAllowance && hasBalance && Number(amount) > 0
@@ -113,7 +113,7 @@ export default function DepositWithdraw() {
     })
   }
 
-  const balText = usdcBalance !== undefined ? `${Number(formatUnits(usdcBalance, 6)).toFixed(2)} USDC` : '--'
+  const balText = usdcBalance !== undefined ? `${Number(formatUnits(usdcBalance, USDC_DECIMALS)).toFixed(2)} USDC` : '--'
 
   return (
     <div className="card">
@@ -151,7 +151,7 @@ export default function DepositWithdraw() {
           </button>
         ) : (
           <button disabled className="btn btn-full" style={{ background: 'var(--canvas-soft)', color: 'var(--ink-mute)' }}>
-            已授权 ({Number(formatUnits(allowance, 6)).toFixed(2)} USDC)
+            已授权 ({Number(formatUnits(allowance, USDC_DECIMALS)).toFixed(2)} USDC)
           </button>
         )}
 

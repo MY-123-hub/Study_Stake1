@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt } from 'wagmi'
 import { formatUnits } from 'viem'
-import { STUDY_STAKE_PROXY } from '../contracts.js'
+import { STUDY_STAKE_PROXY, USDC_DECIMALS } from '../contracts.js'
 import abi from '../abi.json'
 
 const STATUS_MAP = {
@@ -95,7 +95,7 @@ function TaskItem({ taskId, user, refreshTrigger }) {
   const [id, u, targetTime, windowSec, penalty, mode, tagId, status] = task
   const statusNum = Number(status)
   const modeNum = Number(mode)
-  const penaltyUsdc = Number(formatUnits(penalty, 6))
+  const penaltyUsdc = Number(formatUnits(penalty, USDC_DECIMALS))
 
   const now = Math.floor(Date.now() / 1000)
   const targetTs = Number(targetTime)

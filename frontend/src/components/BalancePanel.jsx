@@ -1,6 +1,6 @@
 import { useAccount, useReadContract } from 'wagmi'
 import { formatUnits } from 'viem'
-import { STUDY_STAKE_PROXY } from '../contracts.js'
+import { STUDY_STAKE_PROXY, USDC_DECIMALS } from '../contracts.js'
 import abi from '../abi.json'
 
 export default function BalancePanel() {
@@ -24,8 +24,8 @@ export default function BalancePanel() {
 
   if (!isConnected) return null
 
-  const bal = balance !== undefined ? Number(formatUnits(BigInt(balance), 6)) : 0
-  const avail = available !== undefined ? Number(formatUnits(BigInt(available), 6)) : 0
+  const bal = balance !== undefined ? Number(formatUnits(BigInt(balance), USDC_DECIMALS)) : 0
+  const avail = available !== undefined ? Number(formatUnits(BigInt(available), USDC_DECIMALS)) : 0
 
   return (
     <div className="card">

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi'
 import { parseUnits } from 'viem'
-import { STUDY_STAKE_PROXY } from '../contracts.js'
+import { STUDY_STAKE_PROXY, USDC_DECIMALS } from '../contracts.js'
 import abi from '../abi.json'
 
 const MODES = {
@@ -31,7 +31,7 @@ export default function CreateTask({ onTaskCreated }) {
 
     const targetTs = Math.floor(new Date(targetTime).getTime() / 1000)
     const windowSec = parseInt(window) || 1800
-    const penaltyWei = parseUnits(penalty, 6)
+    const penaltyWei = parseUnits(penalty, USDC_DECIMALS)
 
     if (mode === 'NFC') {
       if (!tagId || tagId === '0x00000000') {
