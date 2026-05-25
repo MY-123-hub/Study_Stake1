@@ -9,22 +9,47 @@ export default function ConnectButton() {
   const { switchChain, isPending: isSwitching } = useSwitchChain()
   const chainId = useChainId()
 
-  // 连接后如果不在 BSC，自动切换
   useEffect(() => {
-    if (isConnected && chainId !== bsc.id) {
+    if (isConnected && chainId !== bsc.id && !isSwitching) {
       switchChain({ chainId: bsc.id })
     }
-  }, [isConnected, chainId])
+  }, [isConnected, chainId, isSwitching, switchChain])
 
   if (!isConnected) {
+    if (connectors.length === 0) {
+      return (
+        <button disabled className="btn btn-outline">
+          未检测到钱包插件
+        </button>
+      )
+    }
+
+    if (connectors.length === 1) {
+      return (
+        <button
+          onClick={() => connect({ connector: connectors[0], chainId: bsc.id })}
+          disabled={isPending}
+          className="btn btn-primary"
+        >
+          {isPending ? '连接中...' : '连接钱包'}
+        </button>
+      )
+    }
+
     return (
-      <button
-        onClick={() => connect({ connector: connectors[0], chainId: bsc.id })}
-        disabled={isPending}
-        className="btn btn-primary"
-      >
-        {isPending ? '连接中...' : '连接钱包'}
-      </button>
+      <div style={{ display: 'flex', gap: 8 }}>
+        {connectors.map((c) => (
+          <button
+            key={c.id}
+            onClick={() => connect({ connector: c, chainId: bsc.id })}
+            disabled={isPending}
+            className="btn btn-primary"
+            style={{ fontSize: 13 }}
+          >
+            {c.name || '连接钱包'}
+          </button>
+        ))}
+      </div>
     )
   }
 
@@ -33,8 +58,8 @@ export default function ConnectButton() {
   return (
     <div className="wallet-info">
       {isWrongChain && (
-        <span style={{ color: '#dc2626', fontSize: 13, fontWeight: 500 }}>
-          {isSwitching ? '切换网络中...' : '请先在钱包中切换到 BNB Chain'}
+        <span style={{ color: '#dc2626', fontSize: 13, fontWeight: 500, marginRight: 10 }}>
+          {isSwitching ? '切换中...' : '请切换到 BNB Chain'}
         </span>
       )}
       <span className="address">
