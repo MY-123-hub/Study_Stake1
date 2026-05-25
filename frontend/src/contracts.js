@@ -1,6 +1,6 @@
-// Sepolia 部署地址（2026-04-20 重新部署，USDC 地址修正）
-export const STUDY_STAKE_PROXY = '0x22D0F73143669d2c3D22dAd60Eb500998427cA5B'
-export const USDC_SEPOLIA = '0x59650868170da63D4057E6eE8afdaFE5A4dD7aA8'
+// BNB Chain 部署地址（2026-05-25）
+export const STUDY_STAKE_PROXY = '0x2E6C8aC0D2DfbB8155B3Ba0fc272A74A5d34Ffae'
+export const USDC = '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d'
 
-export const CHAIN_ID = 11155111 // Sepolia
+export const CHAIN_ID = 56 // BNB Chain
 export const USDC_DECIMALS = 6

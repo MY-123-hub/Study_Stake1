@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt } from 'wagmi'
 import { parseUnits, formatUnits } from 'viem'
-import { STUDY_STAKE_PROXY, USDC_SEPOLIA } from '../contracts.js'
+import { STUDY_STAKE_PROXY, USDC } from '../contracts.js'
 import abi from '../abi.json'
 
 export default function DepositWithdraw() {
@@ -9,7 +9,7 @@ export default function DepositWithdraw() {
   const [amount, setAmount] = useState('')
 
   const { data: usdcBalance } = useReadContract({
-    address: USDC_SEPOLIA,
+    address: USDC,
     abi: [
       {
         inputs: [{ name: 'account', type: 'address' }],
@@ -25,7 +25,7 @@ export default function DepositWithdraw() {
   })
 
   const { data: allowance, refetch: refetchAllowance } = useReadContract({
-    address: USDC_SEPOLIA,
+    address: USDC,
     abi: [
       {
         inputs: [{ name: 'owner', type: 'address' }, { name: 'spender', type: 'address' }],
@@ -75,7 +75,7 @@ export default function DepositWithdraw() {
   const handleApprove = () => {
     if (!amount || Number(amount) <= 0) return
     approve({
-      address: USDC_SEPOLIA,
+      address: USDC,
       abi: [
         {
           inputs: [{ name: 'spender', type: 'address' }, { name: 'amount', type: 'uint256' }],
