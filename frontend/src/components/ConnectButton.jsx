@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useAccount, useConnect, useDisconnect, useSwitchChain, useChainId } from 'wagmi'
 import { bsc } from 'wagmi/chains'
 
@@ -7,6 +8,13 @@ export default function ConnectButton() {
   const { disconnect } = useDisconnect()
   const { switchChain, isPending: isSwitching } = useSwitchChain()
   const chainId = useChainId()
+
+  // 连接后如果不在 BSC，自动切换
+  useEffect(() => {
+    if (isConnected && chainId !== bsc.id) {
+      switchChain({ chainId: bsc.id })
+    }
+  }, [isConnected, chainId])
 
   if (!isConnected) {
     return (
@@ -25,14 +33,9 @@ export default function ConnectButton() {
   return (
     <div className="wallet-info">
       {isWrongChain && (
-        <button
-          onClick={() => switchChain({ chainId: bsc.id })}
-          disabled={isSwitching}
-          className="btn btn-small btn-danger"
-          style={{ marginRight: 8 }}
-        >
-          切换到 BSC
-        </button>
+        <span style={{ color: '#dc2626', fontSize: 13, fontWeight: 500 }}>
+          {isSwitching ? '切换网络中...' : '请先在钱包中切换到 BNB Chain'}
+        </span>
       )}
       <span className="address">
         {address.slice(0, 6)}...{address.slice(-4)}
