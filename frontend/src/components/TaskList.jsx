@@ -31,7 +31,7 @@ export default function TaskList({ refreshTrigger }) {
   const tasks = []
   for (let i = 1; i <= count; i++) {
     tasks.push(
-      <TaskItem key={i} taskId={i} user={address} refreshTrigger={refreshTrigger} />
+      <TaskItem key={i} taskId={i} user={address} activeTab={activeTab} refreshTrigger={refreshTrigger} />
     )
   }
 
@@ -75,7 +75,9 @@ export default function TaskList({ refreshTrigger }) {
   )
 }
 
-function TaskItem({ taskId, user, refreshTrigger }) {
+const TAB_STATUS = { active: 0, completed: 1, slashed: 2 }
+
+function TaskItem({ taskId, user, activeTab, refreshTrigger }) {
   const { data: task, refetch } = useReadContract({
     address: STUDY_STAKE_PROXY,
     abi,
@@ -94,6 +96,9 @@ function TaskItem({ taskId, user, refreshTrigger }) {
 
   const [id, u, targetTime, windowSec, penalty, mode, tagId, status] = task
   const statusNum = Number(status)
+
+  // 根据当前 tab 过滤
+  if (TAB_STATUS[activeTab] !== undefined && statusNum !== TAB_STATUS[activeTab]) return null
   const modeNum = Number(mode)
   const penaltyUsdc = Number(formatUnits(penalty, USDC_DECIMALS))
 
